@@ -1,0 +1,132 @@
+@import url("https://fonts.googleapis.com/css2?family=Abel&family=Gloria+Hallelujah&family=Josefin+Sans:wght@100;200;300;400;500;600;700&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,200;1,500;1,900&family=Poor+Story&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Righteous&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    font-family: "Kanit", "serif";
+}
+
+.page {
+    @apply min-h-[100dvh] bg-gradient-to-br from-gray-300 via-[#ffefc2] to-gray-300 flex flex-col items-center justify-center;
+}
+
+.auth-title{
+    @apply lg:text-5xl text-3xl underline-offset-4 underline mb-4 shadow-lg hover:shadow-xl
+}
+
+.header-bg{
+    @apply bg-gradient-to-l from-slate-800 via-[#976f00] to-slate-800 shadow-lg hover:shadow-xl
+}
+
+.row {
+    @apply flex flex-row flex-wrap;
+}
+
+.col {
+    @apply flex flex-col;
+}
+
+.center {
+    @apply items-center justify-center;
+}
+
+.btn {
+    @apply py-2 px-4 text-sm rounded-md;
+}
+
+.btn-hover {
+    @apply active:scale-95 transition-all ease-in-out font-semibold;
+}
+
+.icon {
+    @apply btn-hover cursor-pointer;
+}
+
+.page-link {
+    @apply hover:text-opacity-90 text-opacity-40 text-white;
+}
+
+.page-link.active {
+    @apply text-opacity-100;
+}
+
+.input-field {
+    padding: 6px 12px;
+    outline: transparent;
+    border: 2px solid gray;
+    border-radius: 6px;
+}
+
+.input-field:focus {
+    border-color: green;
+}
+
+/* ellipsis loader */
+.lds-ellipsis {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.lds-ellipsis div {
+    position: absolute;
+    top: 33px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    /* background: teal; */
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.lds-ellipsis div:nth-child(1) {
+    left: 8px;
+    animation: lds-ellipsis1 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(2) {
+    left: 8px;
+    animation: lds-ellipsis2 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(3) {
+    left: 32px;
+    animation: lds-ellipsis2 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(4) {
+    left: 56px;
+    animation: lds-ellipsis3 0.6s infinite;
+}
+
+@keyframes lds-ellipsis1 {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes lds-ellipsis3 {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(0);
+    }
+}
+
+@keyframes lds-ellipsis2 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(24px, 0);
+    }
+}
