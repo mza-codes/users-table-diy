@@ -11,9 +11,9 @@ type Props = {
     setUsers: React.Dispatch<React.SetStateAction<TableUser[]>>;
 };
 
-type SortOrder = Record<Field, boolean>;
-type ErrorMsg = {
-    [key in Field]: string;
+type ErrorMsg = Record<Field, string>;
+type SortOrder = {
+    [key in Field]: boolean;
 };
 
 const fields: Field[] = ["name", "email", "age", "city", "country"];
@@ -59,7 +59,10 @@ export default function UserTable({ users, setUsers }: Props) {
                 return result;
             });
 
-            setSortOrder((c) => ({ ...c, [key]: !sortOrder[key] ? true : false }));
+            setSortOrder((c) => ({
+                ...c,
+                [key]: !sortOrder[key] ? true : false,
+            }));
             setUsers(sortedUsers);
         };
     };
@@ -78,13 +81,13 @@ export default function UserTable({ users, setUsers }: Props) {
                     return user[key].toLocaleLowerCase().includes(value.toLowerCase());
                 });
             }
-            console.log("@fetch () => ", { key, value, results });
+            console.log("@get () => ", { key, value, results });
             if (results.length <= 0)
                 setError((c) => ({
                     ...c,
                     [key]: "No Matches Found!",
                 }));
-            else if (error[key].length > 1)
+            else if (error[key].length >= 1)
                 setError((c) => ({
                     ...c,
                     [key]: "",
