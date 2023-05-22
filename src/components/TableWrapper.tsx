@@ -1,38 +1,47 @@
-import { useEffect, useState } from "react";
-import { TableUser } from "../types";
-import UserTable from "./UserTable";
-import { usersAtom } from "../atoms";
+import { useEffect, useRef, useState } from "react";
 import { useAtom } from "jotai";
+import { TableUser } from "../types";
+import { usersAtom } from "../atoms";
+import UserTable from "./UserTable";
 import Loader from "./Loader";
 
 export default function TableWrapper() {
     const [data, setData] = useState<TableUser[]>([]);
     const [loading, setLoading] = useState(true);
     const setUsers = useAtom(usersAtom)[1];
+    const controller = useRef<AbortController>();
 
     useEffect(() => {
-        fetch("https://randomuser.me/api?results=20")
-            .then((res) => res.json())
-            .then((data) => {
-                console.log("fetched data", data);
-                const array: TableUser[] = data?.results?.map((user: User) => {
-                    return {
-                        age: user.dob.age,
-                        city: user.location.city,
-                        country: user.location.country,
-                        email: user.email,
-                        name: `${user.name.first} ${user.name.last}`,
-                    };
-                });
-                console.log(array);
-                return array;
+        if (loading) {
+            controller.current?.abort();
+            controller.current = new AbortController();
+
+            fetch("https://randomuser.me/api?results=40", {
+                signal: controller.current.signal,
             })
-            .then((d) => {
-                setUsers(d);
-                setData(d);
-            })
-            .catch((err) => console.log(err))
-            .finally(() => setLoading(false));
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log("fetched data", data);
+                    const array: TableUser[] = data?.results?.map((user: User) => {
+                        return {
+                            age: user.dob.age,
+                            city: user.location.city,
+                            country: user.location.country,
+                            email: user.email,
+                            name: `${user.name.first} ${user.name.last}`,
+                        };
+                    });
+                    console.log(array);
+                    return array;
+                })
+                .then((d) => {
+                    setUsers(d);
+                    setData(d);
+                })
+                .catch((err) => console.log(err))
+                .finally(() => setLoading(false));
+        }
+        return () => controller.current?.abort();
     }, []);
 
     if (loading)
