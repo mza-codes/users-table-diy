@@ -1,3 +1,4 @@
+```js
 import { useEffect, useRef, useState } from "react";
 import { TableUser } from "../types";
 import UserTable from "./UserTable";
@@ -120,3 +121,4 @@ var dbUser = {
 };
 
 type User = typeof dbUser;
+```
