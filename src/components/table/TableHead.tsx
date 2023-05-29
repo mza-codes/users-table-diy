@@ -25,7 +25,7 @@ export default function TableHead({ head, handleSorting, handleSearch }: Props) 
                     placeholder={head}
                     onChange={({ target }) => handleSearch(head, target.value)}
                     name="none"
-                    className="outline-none border-2 focus:border-gray-400/20 rounded-sm capitalize font-normal text-base bg-transparent py-1 px-2 max-w-[70%] placeholder:text-black"
+                    className="outline-none border-2 focus:border-gray-400/20 rounded-lg capitalize font-normal text-base bg-transparent py-1 px-2 max-w-[70%] placeholder:text-black text-black/60"
                 />
                 <button
                     title={sort ? "Descending" : "Ascending"}

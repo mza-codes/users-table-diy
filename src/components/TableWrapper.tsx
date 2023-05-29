@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TableUser } from "../types";
 import UserTable from "./UserTable";
-import { usersAtom } from "../atoms";
-import { useAtom } from "jotai";
 import Loader from "./Loader";
 
 export default function TableWrapper() {
     const [data, setData] = useState<TableUser[]>([]);
     const [loading, setLoading] = useState(true);
-    const setUsers = useAtom(usersAtom)[1];
+    const [err, setErr] = useState(false);
+    const users = useRef<TableUser[]>([]);
 
     useEffect(() => {
         fetch("https://randomuser.me/api?results=20")
@@ -28,10 +27,13 @@ export default function TableWrapper() {
                 return array;
             })
             .then((d) => {
-                setUsers(d);
+                users.current = d;
                 setData(d);
             })
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                setErr(true);
+                console.log(err);
+            })
             .finally(() => setLoading(false));
     }, []);
 
@@ -48,7 +50,13 @@ export default function TableWrapper() {
                 <h2 className="text-4xl mb-4 underline underline-offset-8 text-center font-semibold">
                     Users Table
                 </h2>
-                <UserTable users={data} setUsers={setData} />
+                {err ? (
+                    <div className="p-4 bg-red-800/40 rounded-xl text-center">
+                        <span className="font-semibold ">Error Fetching Data!</span>
+                    </div>
+                ) : (
+                    <UserTable original={users.current} users={data} setUsers={setData} />
+                )}
             </section>
         </>
     );

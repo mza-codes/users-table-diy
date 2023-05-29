@@ -2,13 +2,10 @@ import { useRef, useState } from "react";
 import { Field, TableUser } from "../types";
 import TableHead from "./table/TableHead";
 import TableRow from "./table/TableRow";
-import { usersAtom } from "../atoms";
-import { useAtom } from "jotai";
 import TableData from "./table/TableData";
 
 type Props = {
     users: TableUser[];
-    setUsers: React.Dispatch<React.SetStateAction<TableUser[]>>;
 };
 
 type ErrorMsg = Record<Field, string>;
@@ -18,8 +15,8 @@ type SortOrder = {
 
 const fields: Field[] = ["name", "email", "age", "city", "country"];
 
-export default function UserTable({ users, setUsers }: Props) {
-    const storedUsers = useAtom(usersAtom)[0] as TableUser[];
+export default function UserTable({ users: storedUsers }: Props) {
+    const [users, setUsers] = useState(storedUsers);
 
     const [sortOrder, setSortOrder] = useState<SortOrder>(() => {
         const initialState = {} as SortOrder;
@@ -78,7 +75,7 @@ export default function UserTable({ users, setUsers }: Props) {
                 results = storedUsers.filter((user) => user.age <= parseInt(value));
             } else {
                 results = storedUsers.filter((user) => {
-                    return user[key].toLocaleLowerCase().includes(value.toLowerCase());
+                    return user[key].toLowerCase().includes(value.toLowerCase());
                 });
             }
             console.log("@get () => ", { key, value, results });
